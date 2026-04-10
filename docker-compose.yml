@@ -1,0 +1,22 @@
+services:
+  # 学生信息管理系统 - 管理后台前端
+  frontend-admin:
+    build:
+      context: ./frontend-admin
+      dockerfile: Dockerfile
+    container_name: student-management-admin
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    networks:
+      - student-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  student-network:
+    driver: bridge

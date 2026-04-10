@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生信息管理系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div id="login-page" class="auth-page">
+        <div class="auth-container">
+            <div class="auth-header">
+                <div class="logo">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <rect width="48" height="48" rx="12" fill="url(#grad1)"/>
+                        <path d="M24 12L12 20V36H36V20L24 12Z" stroke="white" stroke-width="2" fill="none"/>
+                        <circle cx="24" cy="26" r="4" fill="white"/>
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea"/>
+                                <stop offset="100%" style="stop-color:#764ba2"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <h1>学生信息管理系统</h1>
+                <p>Student Information Management System</p>
+            </div>
+            
+            <!-- 登录表单 -->
+            <form id="login-form" class="auth-form active">
+                <h2>用户登录</h2>
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" id="login-username" placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="login-password" placeholder="请输入密码" required>
+                </div>
+                <div class="form-group">
+                    <label>用户角色</label>
+                    <select id="login-role">
+                        <option value="admin">管理员</option>
+                        <option value="teacher">教师</option>
+                        <option value="student">学生</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">登 录</button>
+                </div>
+                <div class="auth-links">
+                    <a href="#" onclick="showForm('register')">注册账号</a>
+                    <a href="#" onclick="showForm('forgot')">忘记密码</a>
+                </div>
+            </form>
+            
+            <!-- 注册表单 -->
+            <form id="register-form" class="auth-form">
+                <h2>用户注册</h2>
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" id="reg-username" placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="email" id="reg-email" placeholder="请输入邮箱" required>
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="reg-password" placeholder="请输入密码" required>
+                </div>
+                <div class="form-group">
+                    <label>确认密码</label>
+                    <input type="password" id="reg-confirm" placeholder="请再次输入密码" required>
+                </div>
+                <div class="form-group">
+                    <label>用户角色</label>
+                    <select id="reg-role">
+                        <option value="teacher">教师</option>
+                        <option value="student">学生</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">注 册</button>
+                </div>
+                <div class="auth-links">
+                    <a href="#" onclick="showForm('login')">返回登录</a>
+                </div>
+            </form>
+            
+            <!-- 忘记密码表单 -->
+            <form id="forgot-form" class="auth-form">
+                <h2>密码找回</h2>
+                <div class="form-group">
+                    <label>邮箱地址</label>
+                    <input type="email" id="forgot-email" placeholder="请输入注册邮箱" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">发送重置链接</button>
+                </div>
+                <div class="auth-links">
+                    <a href="#" onclick="showForm('login')">返回登录</a>
+                </div>
+            </form>
+        </div>
+        <div class="auth-bg">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主系统页面 -->
+    <div id="main-system" class="main-system hidden">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-small">
+                    <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+                        <rect width="48" height="48" rx="12" fill="url(#grad2)"/>
+                        <path d="M24 12L12 20V36H36V20L24 12Z" stroke="white" stroke-width="2" fill="none"/>
+                        <circle cx="24" cy="26" r="4" fill="white"/>
+                        <defs>
+                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea"/>
+                                <stop offset="100%" style="stop-color:#764ba2"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span>学生管理系统</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">系统功能</div>
+                    <a href="#" class="nav-item active" data-module="dashboard">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        <span>系统概览</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">学生信息管理</div>
+                    <a href="#" class="nav-item" data-module="student-import">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                        <span>模板导入</span>
+                    </a>
+                    <a href="#" class="nav-item" data-module="student-add">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        <span>信息录入</span>
+                    </a>
+                    <a href="#" class="nav-item" data-module="student-edit">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        <span>信息修改</span>
+                    </a>
+                    <a href="#" class="nav-item" data-module="student-query">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <span>信息查询</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">学生行为管理</div>
+                    <a href="#" class="nav-item" data-module="health-record">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>
+                        <span>健康记录</span>
+                    </a>
+                    <a href="#" class="nav-item" data-module="reward-record">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2z"/></svg>
+                        <span>奖惩记录</span>
+                    </a>
+                    <a href="#" class="nav-item" data-module="growth-record">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <span>成长档案</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">学生成绩管理</div>
+                    <a href="#" class="nav-item" data-module="grade-import">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                        <span>成绩导入</span>
+                    </a>
+                    <a href="#" class="nav-item" data-module="grade-analysis">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                        <span>成绩分析</span>
+                    </a>
+                    <a href="#" class="nav-item" data-module="grade-trend">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+                        <span>趋势追踪</span>
+                    </a>
+                    <a href="#" class="nav-item" data-module="grade-report">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        <span>统计报表</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section" id="admin-section">
+                    <div class="nav-section-title">系统管理</div>
+                    <a href="#" class="nav-item" data-module="user-manage">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        <span>用户管理</span>
+                    </a>
+                    <a href="#" class="nav-item" data-module="permission">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                        <span>权限管理</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部栏 -->
+            <header class="top-bar">
+                <div class="page-title">
+                    <h2 id="current-page-title">系统概览</h2>
+                </div>
+                <div class="top-bar-actions">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <input type="text" placeholder="搜索...">
+                    </div>
+                    <div class="user-menu">
+                        <div class="user-avatar">
+                            <span id="user-avatar-text">A</span>
+                        </div>
+                        <span id="current-user">管理员</span>
+                        <button class="btn-logout" onclick="logout()">退出</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 内容区域 -->
+            <div class="content-area">
+                <!-- 仪表板模块 -->
+                <div id="module-dashboard" class="module-content active">
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-students">256</h3>
+                                <p>学生总数</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-classes">8</h3>
+                                <p>班级数量</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2z"/></svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-awards">42</h3>
+                                <p>本月奖励</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon purple">
+                                <svg viewBox="0 0 24 24"><path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2 2H5V5h14v14zm0-16H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="avg-score">85.6</h3>
+                                <p>平均成绩</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-charts">
+                        <div class="chart-card">
+                            <h3>成绩分布</h3>
+                            <canvas id="gradeDistChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>各班级人数</h3>
+                            <canvas id="classChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-recent">
+                        <div class="recent-card">
+                            <h3>最近添加的学生</h3>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>姓名</th>
+                                        <th>性别</th>
+                                        <th>班级</th>
+                                        <th>添加时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-students">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模板导入模块 -->
+                <div id="module-student-import" class="module-content">
+                    <div class="module-header">
+                        <h3>模板导入</h3>
+                        <p>支持Excel格式批量导入学生信息</p>
+                    </div>
+                    <div class="import-section">
+                        <div class="template-download">
+                            <h4>第一步：下载模板</h4>
+                            <p>请先下载标准模板，按照模板格式填写学生信息</p>
+                            <button class="btn btn-secondary" onclick="downloadTemplate()">
+                                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                                下载导入模板
+                            </button>
+                        </div>
+                        <div class="file-upload">
+                            <h4>第二步：上传文件</h4>
+                            <div class="upload-area" id="upload-area">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                                <p>点击或拖拽文件到此区域上传</p>
+                                <span>支持 .xlsx, .xls 格式</span>
+                                <input type="file" id="import-file" accept=".xlsx,.xls" hidden>
+                            </div>
+                        </div>
+                        <div class="import-preview" id="import-preview" style="display: none;">
+                            <h4>第三步：预览并确认</h4>
+                            <div class="preview-table-wrapper">
+                                <table class="data-table" id="preview-table">
+                                    <thead></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <div class="import-actions">
+                                <button class="btn btn-secondary" onclick="cancelImport()">取消</button>
+                                <button class="btn btn-primary" onclick="confirmImport()">确认导入</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 信息录入模块 -->
+                <div id="module-student-add" class="module-content">
+                    <div class="module-header">
+                        <h3>学生信息录入</h3>
+                        <p>录入新学生的详细信息</p>
+                    </div>
+                    <form id="student-add-form" class="student-form">
+                        <div class="form-section">
+                            <h4>基本信息</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>姓名 <span class="required">*</span></label>
+                                    <input type="text" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>性别 <span class="required">*</span></label>
+                                    <select name="gender" required>
+                                        <option value="">请选择</option>
+                                        <option value="男">男</option>
+                                        <option value="女">女</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>出生日期 <span class="required">*</span></label>
+                                    <input type="date" name="birthdate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>民族 <span class="required">*</span></label>
+                                    <select name="ethnicity" required>
+                                        <option value="">请选择</option>
+                                        <option value="汉族">汉族</option>
+                                        <option value="满族">满族</option>
+                                        <option value="蒙古族">蒙古族</option>
+                                        <option value="回族">回族</option>
+                                        <option value="藏族">藏族</option>
+                                        <option value="维吾尔族">维吾尔族</option>
+                                        <option value="苗族">苗族</option>
+                                        <option value="彝族">彝族</option>
+                                        <option value="壮族">壮族</option>
+                                        <option value="其他">其他</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>籍贯 <span class="required">*</span></label>
+                                    <input type="text" name="hometown" placeholder="如：北京市" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>身份证号 <span class="required">*</span></label>
+                                    <input type="text" name="idCard" maxlength="18" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>联系电话</label>
+                                    <input type="tel" name="phone">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>家庭住址</label>
+                                    <input type="text" name="address">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h4>家庭信息</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>父亲姓名</label>
+                                    <input type="text" name="fatherName">
+                                </div>
+                                <div class="form-group">
+                                    <label>父亲职业</label>
+                                    <input type="text" name="fatherJob">
+                                </div>
+                                <div class="form-group">
+                                    <label>父亲电话</label>
+                                    <input type="tel" name="fatherPhone">
+                                </div>
+                                <div class="form-group">
+                                    <label>母亲姓名</label>
+                                    <input type="text" name="motherName">
+                                </div>
+                                <div class="form-group">
+                                    <label>母亲职业</label>
+                                    <input type="text" name="motherJob">
+                                </div>
+                                <div class="form-group">
+                                    <label>母亲电话</label>
+                                    <input type="tel" name="motherPhone">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h4>其他信息</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>是否重组家庭</label>
+                                    <select name="reorganizedFamily">
+                                        <option value="否">否</option>
+                                        <option value="是">是</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>是否留守儿童</label>
+                                    <select name="leftBehindChild">
+                                        <option value="否">否</option>
+                                        <option value="是">是</option>
+                                    </select>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>疾病史</label>
+                                    <textarea name="medicalHistory" rows="3" placeholder="如无请填写'无'"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-secondary">重置</button>
+                            <button type="submit" class="btn btn-primary">保存信息</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 信息修改模块 -->
+                <div id="module-student-edit" class="module-content">
+                    <div class="module-header">
+                        <h3>学生信息修改</h3>
+                        <p>搜索并修改学生信息</p>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-bar">
+                            <input type="text" id="edit-search" placeholder="输入学生姓名或身份证号搜索...">
+                            <button class="btn btn-primary" onclick="searchStudentForEdit()">搜索</button>
+                        </div>
+                    </div>
+                    <div id="edit-result" class="edit-result" style="display: none;">
+                        <form id="student-edit-form" class="student-form">
+                            <input type="hidden" name="id">
+                            <div class="form-section">
+                                <h4>基本信息</h4>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>姓名 <span class="required">*</span></label>
+                                        <input type="text" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>性别 <span class="required">*</span></label>
+                                        <select name="gender" required>
+                                            <option value="男">男</option>
+                                            <option value="女">女</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>出生日期 <span class="required">*</span></label>
+                                        <input type="date" name="birthdate" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>民族 <span class="required">*</span></label>
+                                        <select name="ethnicity" required>
+                                            <option value="汉族">汉族</option>
+                                            <option value="满族">满族</option>
+                                            <option value="蒙古族">蒙古族</option>
+                                            <option value="回族">回族</option>
+                                            <option value="藏族">藏族</option>
+                                            <option value="维吾尔族">维吾尔族</option>
+                                            <option value="苗族">苗族</option>
+                                            <option value="彝族">彝族</option>
+                                            <option value="壮族">壮族</option>
+                                            <option value="其他">其他</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>籍贯 <span class="required">*</span></label>
+                                        <input type="text" name="hometown" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>身份证号 <span class="required">*</span></label>
+                                        <input type="text" name="idCard" maxlength="18" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>联系电话</label>
+                                        <input type="tel" name="phone">
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label>家庭住址</label>
+                                        <input type="text" name="address">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h4>家庭信息</h4>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>父亲姓名</label>
+                                        <input type="text" name="fatherName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>父亲职业</label>
+                                        <input type="text" name="fatherJob">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>父亲电话</label>
+                                        <input type="tel" name="fatherPhone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>母亲姓名</label>
+                                        <input type="text" name="motherName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>母亲职业</label>
+                                        <input type="text" name="motherJob">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>母亲电话</label>
+                                        <input type="tel" name="motherPhone">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h4>其他信息</h4>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>是否重组家庭</label>
+                                        <select name="reorganizedFamily">
+                                            <option value="否">否</option>
+                                            <option value="是">是</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>是否留守儿童</label>
+                                        <select name="leftBehindChild">
+                                            <option value="否">否</option>
+                                            <option value="是">是</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label>疾病史</label>
+                                        <textarea name="medicalHistory" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-danger" onclick="deleteStudent()">删除学生</button>
+                                <button type="submit" class="btn btn-primary">保存修改</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 信息查询模块 -->
+                <div id="module-student-query" class="module-content">
+                    <div class="module-header">
+                        <h3>学生信息查询</h3>
+                        <p>多条件查询学生信息</p>
+                    </div>
+                    <div class="query-filters">
+                        <div class="filter-row">
+                            <div class="filter-item">
+                                <label>姓名</label>
+                                <input type="text" id="query-name" placeholder="输入姓名">
+                            </div>
+                            <div class="filter-item">
+                                <label>性别</label>
+                                <select id="query-gender">
+                                    <option value="">全部</option>
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label>民族</label>
+                                <select id="query-ethnicity">
+                                    <option value="">全部</option>
+                                    <option value="汉族">汉族</option>
+                                    <option value="满族">满族</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label>留守儿童</label>
+                                <select id="query-leftBehind">
+                                    <option value="">全部</option>
+                                    <option value="是">是</option>
+                                    <option value="否">否</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="queryStudents()">查询</button>
+                            <button class="btn btn-secondary" onclick="resetQuery()">重置</button>
+                        </div>
+                    </div>
+                    <div class="query-results">
+                        <table class="data-table" id="student-table">
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>出生日期</th>
+                                    <th>民族</th>
+                                    <th>籍贯</th>
+                                    <th>联系电话</th>
+                                    <th>留守儿童</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-list">
+                            </tbody>
+                        </table>
+                        <div class="pagination" id="student-pagination"></div>
+                    </div>
+                </div>
+
+                <!-- 健康记录模块 -->
+                <div id="module-health-record" class="module-content">
+                    <div class="module-header">
+                        <h3>健康记录</h3>
+                        <p>管理学生健康档案</p>
+                    </div>
+                    <div class="toolbar">
+                        <button class="btn btn-primary" onclick="showHealthModal()">
+                            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                            添加健康记录
+                        </button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>学生姓名</th>
+                                <th>检查日期</th>
+                                <th>身高(cm)</th>
+                                <th>体重(kg)</th>
+                                <th>视力(左/右)</th>
+                                <th>健康状况</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="health-list">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 奖惩记录模块 -->
+                <div id="module-reward-record" class="module-content">
+                    <div class="module-header">
+                        <h3>奖惩记录</h3>
+                        <p>管理学生奖励与惩罚记录</p>
+                    </div>
+                    <div class="toolbar">
+                        <button class="btn btn-success" onclick="showRewardModal('reward')">
+                            <svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2z"/></svg>
+                            添加奖励
+                        </button>
+                        <button class="btn btn-warning" onclick="showRewardModal('punishment')">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                            添加惩罚
+                        </button>
+                    </div>
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="all">全部</button>
+                        <button class="tab-btn" data-tab="reward">奖励</button>
+                        <button class="tab-btn" data-tab="punishment">惩罚</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>学生姓名</th>
+                                <th>类型</th>
+                                <th>日期</th>
+                                <th>原因</th>
+                                <th>级别</th>
+                                <th>记录人</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reward-list">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 成长档案模块 -->
+                <div id="module-growth-record" class="module-content">
+                    <div class="module-header">
+                        <h3>成长档案</h3>
+                        <p>记录学生成长历程</p>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" id="growth-search" placeholder="输入学生姓名搜索...">
+                        <button class="btn btn-primary" onclick="searchGrowthRecord()">搜索</button>
+                    </div>
+                    <div id="growth-content" class="growth-content">
+                        <div class="growth-profile" id="growth-profile" style="display:none;">
+                            <div class="profile-header">
+                                <div class="profile-avatar">
+                                    <span id="growth-avatar">张</span>
+                                </div>
+                                <div class="profile-info">
+                                    <h3 id="growth-name">张三</h3>
+                                    <p id="growth-class">三年级一班</p>
+                                </div>
+                                <button class="btn btn-primary" onclick="showGrowthModal()">添加成长记录</button>
+                            </div>
+                            <div class="growth-timeline" id="growth-timeline">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 成绩导入模块 -->
+                <div id="module-grade-import" class="module-content">
+                    <div class="module-header">
+                        <h3>成绩导入</h3>
+                        <p>批量导入学生成绩数据</p>
+                    </div>
+                    <div class="import-section">
+                        <div class="grade-import-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>考试名称</label>
+                                    <input type="text" id="exam-name" placeholder="如：2024年春季期中考试">
+                                </div>
+                                <div class="form-group">
+                                    <label>考试日期</label>
+                                    <input type="date" id="exam-date">
+                                </div>
+                                <div class="form-group">
+                                    <label>考试类型</label>
+                                    <select id="exam-type">
+                                        <option value="期中">期中考试</option>
+                                        <option value="期末">期末考试</option>
+                                        <option value="月考">月考</option>
+                                        <option value="单元测试">单元测试</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-download">
+                            <button class="btn btn-secondary" onclick="downloadGradeTemplate()">
+                                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                                下载成绩模板
+                            </button>
+                        </div>
+                        <div class="file-upload">
+                            <div class="upload-area" id="grade-upload-area">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                                <p>点击或拖拽成绩文件到此区域</p>
+                                <input type="file" id="grade-import-file" accept=".xlsx,.xls" hidden>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 成绩分析模块 -->
+                <div id="module-grade-analysis" class="module-content">
+                    <div class="module-header">
+                        <h3>成绩分析</h3>
+                        <p>查看学生各科成绩分析</p>
+                    </div>
+                    <div class="analysis-filters">
+                        <div class="filter-item">
+                            <label>选择考试</label>
+                            <select id="analysis-exam" onchange="loadGradeAnalysis()">
+                                <option value="1">2024年春季期中考试</option>
+                                <option value="2">2024年春季期末考试</option>
+                                <option value="3">2024年秋季期中考试</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>选择班级</label>
+                            <select id="analysis-class" onchange="loadGradeAnalysis()">
+                                <option value="">全部班级</option>
+                                <option value="1">三年级一班</option>
+                                <option value="2">三年级二班</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="analysis-content">
+                        <div class="analysis-cards">
+                            <div class="analysis-card">
+                                <h4>最高分</h4>
+                                <span class="value" id="max-score">98</span>
+                            </div>
+                            <div class="analysis-card">
+                                <h4>最低分</h4>
+                                <span class="value" id="min-score">45</span>
+                            </div>
+                            <div class="analysis-card">
+                                <h4>平均分</h4>
+                                <span class="value" id="avg-score-analysis">78.5</span>
+                            </div>
+                            <div class="analysis-card">
+                                <h4>及格率</h4>
+                                <span class="value" id="pass-rate">85%</span>
+                            </div>
+                            <div class="analysis-card">
+                                <h4>优秀率</h4>
+                                <span class="value" id="excellent-rate">32%</span>
+                            </div>
+                        </div>
+                        <div class="analysis-charts">
+                            <div class="chart-card">
+                                <h4>各科平均分</h4>
+                                <canvas id="subjectAvgChart"></canvas>
+                            </div>
+                            <div class="chart-card">
+                                <h4>分数段分布</h4>
+                                <canvas id="scoreDistChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 趋势追踪模块 -->
+                <div id="module-grade-trend" class="module-content">
+                    <div class="module-header">
+                        <h3>成绩趋势追踪</h3>
+                        <p>查看学生成绩变化趋势</p>
+                    </div>
+                    <div class="trend-search">
+                        <div class="search-bar">
+                            <input type="text" id="trend-student" placeholder="输入学生姓名搜索...">
+                            <button class="btn btn-primary" onclick="loadStudentTrend()">查询</button>
+                        </div>
+                    </div>
+                    <div id="trend-content" style="display:none;">
+                        <div class="student-info-card">
+                            <h4 id="trend-student-name">张三</h4>
+                            <p id="trend-student-class">三年级一班</p>
+                        </div>
+                        <div class="trend-charts">
+                            <div class="chart-card full-width">
+                                <h4>总成绩趋势</h4>
+                                <canvas id="totalScoreTrend"></canvas>
+                            </div>
+                            <div class="chart-card full-width">
+                                <h4>各科成绩趋势</h4>
+                                <canvas id="subjectScoreTrend"></canvas>
+                            </div>
+                        </div>
+                        <div class="grade-history">
+                            <h4>历次考试成绩</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>考试名称</th>
+                                        <th>语文</th>
+                                        <th>数学</th>
+                                        <th>英语</th>
+                                        <th>物理</th>
+                                        <th>化学</th>
+                                        <th>总分</th>
+                                        <th>班级排名</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="grade-history-list">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 统计报表模块 -->
+                <div id="module-grade-report" class="module-content">
+                    <div class="module-header">
+                        <h3>统计报表</h3>
+                        <p>生成各类统计报表</p>
+                    </div>
+                    <div class="report-filters">
+                        <div class="filter-item">
+                            <label>报表类型</label>
+                            <select id="report-type" onchange="loadReport()">
+                                <option value="class">班级成绩报表</option>
+                                <option value="subject">学科成绩报表</option>
+                                <option value="student">学生成绩报表</option>
+                                <option value="compare">班级对比报表</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>考试选择</label>
+                            <select id="report-exam">
+                                <option value="1">2024年春季期中考试</option>
+                                <option value="2">2024年春季期末考试</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="generateReport()">生成报表</button>
+                        <button class="btn btn-secondary" onclick="exportReport()">
+                            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                            导出报表
+                        </button>
+                    </div>
+                    <div class="report-content" id="report-content">
+                        <div class="report-table-wrapper">
+                            <table class="data-table report-table" id="report-table">
+                                <thead id="report-thead"></thead>
+                                <tbody id="report-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 用户管理模块 -->
+                <div id="module-user-manage" class="module-content">
+                    <div class="module-header">
+                        <h3>用户管理</h3>
+                        <p>管理系统用户账号</p>
+                    </div>
+                    <div class="toolbar">
+                        <button class="btn btn-primary" onclick="showUserModal()">
+                            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                            添加用户
+                        </button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>邮箱</th>
+                                <th>角色</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-list">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 权限管理模块 -->
+                <div id="module-permission" class="module-content">
+                    <div class="module-header">
+                        <h3>权限管理</h3>
+                        <p>配置角色权限</p>
+                    </div>
+                    <div class="permission-content">
+                        <div class="role-list">
+                            <h4>角色列表</h4>
+                            <div class="role-item active" data-role="admin">
+                                <span>管理员</span>
+                                <span class="role-badge">全部权限</span>
+                            </div>
+                            <div class="role-item" data-role="teacher">
+                                <span>教师</span>
+                                <span class="role-badge">部分权限</span>
+                            </div>
+                            <div class="role-item" data-role="student">
+                                <span>学生</span>
+                                <span class="role-badge">基本权限</span>
+                            </div>
+                        </div>
+                        <div class="permission-list">
+                            <h4>权限配置 - <span id="current-role-name">管理员</span></h4>
+                            <div class="permission-groups" id="permission-groups">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 模态框 -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">标题</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+            <div class="modal-footer" id="modal-footer">
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知提示 -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

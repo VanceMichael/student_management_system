@@ -38,7 +38,7 @@ docker-compose build
 
 | 服务名称 | 描述 | 端口 | 访问地址 |
 |---------|------|------|---------|
-| frontend-admin | 管理后台前端 | 8081 | http://localhost:8081 |
+| frontend-admin | 管理后台前端 | 8082 | http://localhost:8082 |
 
 ## 测试账号
 
