@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学生信息管理系统</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/base/base.css">
+    <link rel="stylesheet" href="css/layout/layout.css">
+    <link rel="stylesheet" href="css/components/components.css">
+    <link rel="stylesheet" href="css/modules/auth.css">
+    <link rel="stylesheet" href="css/modules/student.css">
+    <link rel="stylesheet" href="css/modules/behavior.css">
+    <link rel="stylesheet" href="css/modules/grade.css">
+    <link rel="stylesheet" href="css/modules/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -1030,6 +1037,16 @@
     <!-- 通知提示 -->
     <div id="toast" class="toast"></div>
 
-    <script src="js/app.js"></script>
+    <script type="module" src="js/store/store.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/student.js"></script>
+    <script type="module" src="js/behavior.js"></script>
+    <script type="module" src="js/grade.js"></script>
+    <script type="module" src="js/admin.js"></script>
+    <script type="module">
+        import { initEventBindings } from './js/admin.js';
+        initEventBindings();
+    </script>
 </body>
 </html>
