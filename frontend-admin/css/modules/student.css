@@ -1,0 +1,193 @@
+/* ========================================
+   学生信息管理模块样式 - Student
+   ======================================== */
+
+/* 导入模块 */
+.import-section {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
+}
+
+.template-download,
+.file-upload {
+    margin-bottom: 32px;
+}
+
+.template-download h4,
+.file-upload h4,
+.import-preview h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.template-download p,
+.file-upload p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.upload-area:hover {
+    border-color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.upload-area svg {
+    width: 48px;
+    height: 48px;
+    fill: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.upload-area p {
+    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.upload-area span {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.preview-table-wrapper {
+    max-height: 400px;
+    overflow: auto;
+    margin-bottom: 24px;
+}
+
+.import-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* 学生表单 */
+.student-form {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* 查询模块 */
+.query-filters {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.filter-item {
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-item label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.filter-item input,
+.filter-item select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+}
+
+.query-results {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* 学生详情 */
+.student-detail .detail-section {
+    margin-bottom: 24px;
+}
+
+.student-detail .detail-section h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.student-detail .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.student-detail .detail-item {
+    display: flex;
+    gap: 8px;
+}
+
+.student-detail .detail-item label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    min-width: 70px;
+}
+
+.student-detail .detail-item span {
+    font-weight: 500;
+}
+
+/* 编辑模块 */
+.search-section {
+    margin-bottom: 24px;
+}
+
+.edit-result {
+    margin-top: 24px;
+}
+
+@media (max-width: 1200px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-row {
+        flex-direction: column;
+    }
+    
+    .filter-item {
+        width: 100%;
+    }
+}

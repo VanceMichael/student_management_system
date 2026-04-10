@@ -1,0 +1,71 @@
+/* ========================================
+   学生信息管理系统 - 主样式文件
+   导入所有模块样式
+   ======================================== */
+
+/* 基础样式 */
+@import url('base.css');
+
+/* 布局样式 */
+@import url('layout.css');
+
+/* 组件样式 */
+@import url('components.css');
+
+/* 各模块样式 */
+@import url('modules/dashboard.css');
+@import url('modules/student.css');
+@import url('modules/behavior.css');
+@import url('modules/grade.css');
+@import url('modules/admin.css');
+
+/* 响应式设计 */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 72px;
+    }
+    
+    .sidebar-header span,
+    .nav-section-title,
+    .nav-item span {
+        display: none;
+    }
+    
+    .sidebar-header {
+        justify-content: center;
+    }
+    
+    .nav-item {
+        justify-content: center;
+        padding: 16px;
+    }
+    
+    .main-content {
+        margin-left: 72px;
+    }
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 32px 24px;
+        margin: 16px;
+    }
+    
+    .top-bar {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+    }
+    
+    .top-bar-actions {
+        justify-content: space-between;
+    }
+    
+    .search-box {
+        flex: 1;
+    }
+    
+    .search-box input {
+        width: 100%;
+    }
+}
